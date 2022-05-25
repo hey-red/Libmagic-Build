@@ -2,7 +2,6 @@
 
 libmagic build script for windows
 
-
 ## Windows build with docker and llvm-mingw
 
 ```bash
