@@ -1,0 +1,37 @@
+diff --git a/src/funcs.c b/src/funcs.c
+index aab9c3b..dcbc9b7 100644
+--- a/src/funcs.c
++++ b/src/funcs.c
+@@ -843,6 +843,9 @@ file_print_guid(char *str, size_t len, const uint64_t *guid)
+ protected int
+ file_pipe_closexec(int *fds)
+ {
++#ifdef WIN32
++	return 0;
++#endif
+ #ifdef HAVE_PIPE2
+ 	return pipe2(fds, O_CLOEXEC);
+ #else
+@@ -858,6 +861,9 @@ file_pipe_closexec(int *fds)
+ 
+ protected int
+ file_clear_closexec(int fd) {
++#ifdef WIN32
++	return 0;
++#endif
+ #ifdef F_SETFD
+ 	return fcntl(fd, F_SETFD, 0);
+ #else
+diff --git a/src/magic.c b/src/magic.c
+index 7768497..6a8acb8 100644
+--- a/src/magic.c
++++ b/src/magic.c
+@@ -477,7 +477,7 @@ file_or_fd(struct magic_set *ms, const char *inname, int fd)
+ 			rv = 0;
+ 			goto done;
+ 		}
+-#if O_CLOEXEC == 0 && defined(F_SETFD)
++#if O_CLOEXEC == 0 && defined(F_SETFD) && !defined(WIN32)
+ 		(void)fcntl(fd, F_SETFD, FD_CLOEXEC);
+ #endif
+ 	}
