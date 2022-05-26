@@ -21,7 +21,7 @@ if [ -z "$cpu_count" ]; then
   cpu_count=1
 fi
 
-echo $"CPU count: $cpu_count";
+echo "CPU count: $cpu_count";
 
 dest_dir="/build/dist"
 
@@ -29,17 +29,14 @@ mkdir -p "$dest_dir"
 
 export LDFLAGS="-L${PWD}"
 export CFLAGS="-I${PWD}"
-export CC="clang-14"
 
 git clone --depth 1 https://github.com/file/file || exit 1
 cd file
 
 autoreconf -f -i
 
-./configure --disable-silent-rules --disable-zlib --disable-xzlib --disable-bzlib
+./configure --host=$CHOST --disable-silent-rules --disable-zlib --disable-xzlib --disable-bzlib
 make "-j${cpu_count}"
-
-ls src/.libs/
 
 cp "magic/magic.mgc" $dest_dir
 cp "src/.libs/$libmagic_lib" $dest_dir

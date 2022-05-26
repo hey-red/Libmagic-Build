@@ -1,0 +1,9 @@
+# gcc build
+FROM alpine:latest
+
+# Install other build deps
+RUN apk add git build-base automake autoconf pkgconfig libtool
+
+WORKDIR /build
+COPY libmagic_unix.sh .
+RUN chmod +x libmagic_unix.sh

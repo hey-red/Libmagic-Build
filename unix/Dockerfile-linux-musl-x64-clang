@@ -1,0 +1,39 @@
+# Based on https://github.com/trailofbits/llvm-docker
+# TODO: Fix build
+FROM alpine:latest
+
+# LLVM dependencies:
+RUN apk --no-cache add \
+    git \
+    autoconf \
+    automake \
+    cmake \
+    freetype-dev \
+    g++ \
+    gcc \
+    libxml2-dev \
+    linux-headers \
+    make \
+    musl-dev \
+    ncurses-dev \
+    python3
+
+COPY install_llvm.sh /
+RUN ./install_llvm.sh && rm install_llvm.sh
+
+# Install other build deps
+RUN apk add git build-base automake autoconf pkgconfig libtool
+
+# Fix clang build
+RUN ln -s /usr/lib/gcc/x86_64-alpine-linux-musl/11.2.1/crtbegin.o /usr/lib
+RUN ln -s /usr/lib/gcc/x86_64-alpine-linux-musl/11.2.1/crtend.o /usr/lib
+RUN ln -s /usr/lib/gcc/x86_64-alpine-linux-musl/11.2.1/libgcc.a /usr/lib
+RUN ln -s /usr/lib/gcc/x86_64-alpine-linux-musl/11.2.1/crtbeginS.o /usr/lib
+RUN ln -s /usr/lib/gcc/x86_64-alpine-linux-musl/11.2.1/crtendS.o /usr/lib
+
+ENV CC="clang-14"
+ENV CHOST="x86_64-pc-linux-musl"
+
+WORKDIR /build
+COPY libmagic_unix.sh .
+RUN chmod +x libmagic_unix.sh

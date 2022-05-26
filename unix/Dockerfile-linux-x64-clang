@@ -12,6 +12,8 @@ RUN wget https://apt.llvm.org/llvm.sh && chmod +x llvm.sh && ./llvm.sh
 # Install other build deps
 RUN apt-get install git build-essential automake autoconf pkg-config libtool-bin -y
 
+ENV CC="clang-14"
+
 WORKDIR /build
 COPY libmagic_unix.sh .
 RUN chmod +x libmagic_unix.sh
