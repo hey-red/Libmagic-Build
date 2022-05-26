@@ -1,0 +1,17 @@
+# We use previous LTS, because latest releases contains glibc version greater than 2.31
+FROM ubuntu:20.04
+
+RUN apt-get update && apt-get upgrade -y
+
+# Required for llvm.sh
+RUN apt-get install lsb-release wget software-properties-common gpg-agent sudo --no-install-recommends -y
+
+# Install llvm
+RUN wget https://apt.llvm.org/llvm.sh && chmod +x llvm.sh && ./llvm.sh
+
+# Install other build deps
+RUN apt-get install git build-essential automake autoconf pkg-config libtool-bin -y
+
+WORKDIR /build
+COPY libmagic_unix.sh .
+RUN chmod +x libmagic_unix.sh
