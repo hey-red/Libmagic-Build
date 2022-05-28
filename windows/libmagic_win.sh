@@ -53,11 +53,13 @@ export LDFLAGS="-L${PWD}"
 export CFLAGS="-I${PWD}"
 cd ..
 
-git clone --depth 1 https://github.com/file/file || exit 1
+git clone https://github.com/file/file || exit 1
 cd file
 
+git checkout "03aa64c216828bbc844ae5a6b75c450b0e2f01d3"
+
 # Apply patches
-patch -p1 < /build/F_SETFD.patch
+patch -p1 < /build/fcntl.patch
 
 autoreconf -f -i
 

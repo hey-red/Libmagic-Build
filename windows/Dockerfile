@@ -7,5 +7,5 @@ RUN apt-get install git automake autoconf pkg-config libtool-bin -y
 WORKDIR /build
 COPY libgnurx-2.5 libgnurx-2.5
 COPY libmagic_win.sh .
-COPY F_SETFD.patch .
+COPY fcntl.patch .
 RUN chmod +x libmagic_win.sh
