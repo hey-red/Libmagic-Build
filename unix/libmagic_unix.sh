@@ -30,8 +30,10 @@ mkdir -p "$dest_dir"
 export LDFLAGS="-L${PWD}"
 export CFLAGS="-I${PWD}"
 
-git clone --depth 1 https://github.com/file/file || exit 1
+git clone https://github.com/file/file || exit 1
 cd file
+
+git checkout "504206e53a89fd6eed71aeaf878aa3512418eab1" # FILE5_41
 
 autoreconf -f -i
 
