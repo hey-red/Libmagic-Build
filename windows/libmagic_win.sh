@@ -50,26 +50,24 @@ make "-j${cpu_count}" target=${target}-
 cp $gnurx_lib $dest_dir
 
 export LDFLAGS="-L${PWD}"
-export CFLAGS="-I${PWD}"
+export CFLAGS="-I${PWD} -fvisibility=default"
 cd ..
 
 git clone https://github.com/file/file || exit 1
 cd file
 
-git checkout "03aa64c216828bbc844ae5a6b75c450b0e2f01d3"
-
-# Apply patches
-patch -p1 < /build/fcntl.patch
+git checkout "4cbd5c8f0851201d203755b76cb66ba991ffd8be" # FILE5_45
 
 autoreconf -f -i
 
 # Build libmagic twice
 ./configure --disable-silent-rules --prefix=$bin_dir
+# Install
 make install "-j${cpu_count}"
 cp "magic/magic.mgc" $dest_dir
 make clean
 
-./configure --host=$target --disable-silent-rules --disable-zlib --disable-xzlib --disable-bzlib
+./configure --host=$target --disable-silent-rules --disable-zlib --disable-xzlib --disable-bzlib --enable-shared
 make "-j${cpu_count}" FILE_COMPILE=$bin_dir/bin/file
 cp "src/.libs/$libmagic_lib" $dest_dir
 

@@ -1,6 +1,6 @@
 dir=llvm-project
 
-git clone --depth 1 --branch release/14.x https://github.com/llvm/llvm-project.git $dir || exit 1
+git clone --depth 1 --branch release/17.x https://github.com/llvm/llvm-project.git $dir || exit 1
 
 cd $dir
 mkdir build

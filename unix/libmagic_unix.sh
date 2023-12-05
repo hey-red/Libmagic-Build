@@ -33,7 +33,7 @@ export CFLAGS="-I${PWD}"
 git clone https://github.com/file/file || exit 1
 cd file
 
-git checkout "504206e53a89fd6eed71aeaf878aa3512418eab1" # FILE5_41
+git checkout "4cbd5c8f0851201d203755b76cb66ba991ffd8be" # FILE5_45
 
 autoreconf -f -i
 
