@@ -1,5 +1,4 @@
 #!/bin/bash
-set -e
 
 while [[ "$#" -gt 0 ]]; do case $1 in
   -r|--rid) 
@@ -56,7 +55,7 @@ cd ..
 git clone https://github.com/file/file || exit 1
 cd file
 
-git checkout "4cbd5c8f0851201d203755b76cb66ba991ffd8be" # FILE5_45
+git checkout "c5aa4f7f8d5063fb3c37ad57bf54bb67ec641a09" # FILE5_46
 
 autoreconf -f -i
 
