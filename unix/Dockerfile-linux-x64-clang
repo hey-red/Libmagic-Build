@@ -1,18 +1,20 @@
-# We use previous LTS, because latest releases contains glibc version greater than 2.31
-FROM ubuntu:20.04
+FROM ubuntu:22.04
 
-RUN apt-get update && apt-get upgrade -y
+RUN apt update && apt-get upgrade -y
+RUN apt install -y lsb-release wget software-properties-common gpg-agent sudo --no-install-recommends
 
-# Required for llvm.sh
-RUN apt-get install lsb-release wget software-properties-common gpg-agent sudo --no-install-recommends -y
+RUN wget -qO- https://apt.llvm.org/llvm-snapshot.gpg.key | tee /etc/apt/trusted.gpg.d/apt.llvm.org.asc
+RUN add-apt-repository -y "deb http://apt.llvm.org/jammy/ llvm-toolchain-jammy-19 main"
+
+RUN apt update && apt-get upgrade -y
 
 # Install llvm
-RUN wget https://apt.llvm.org/llvm.sh && chmod +x llvm.sh && ./llvm.sh 17
+RUN apt install -y clang-19 lldb-19 lld-19 clangd-19
 
 # Install other build deps
-RUN apt-get install git build-essential automake autoconf pkg-config libtool-bin -y
+RUN apt install -y git build-essential automake autoconf pkg-config libtool-bin
 
-ENV CC="clang-17"
+ENV CC="clang-19"
 
 WORKDIR /build
 COPY libmagic_unix.sh .
